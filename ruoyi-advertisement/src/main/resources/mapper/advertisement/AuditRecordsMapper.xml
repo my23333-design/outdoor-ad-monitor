@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.advertisement.mapper.AuditRecordsMapper">
+    
+    <resultMap type="AuditRecords" id="AuditRecordsResult">
+        <result property="id"    column="id"    />
+        <result property="adId"    column="ad_id"    />
+        <result property="auditStatus"    column="audit_status"    />
+        <result property="clauseCode"    column="clause_code"    />
+        <result property="auditComments"    column="audit_comments"    />
+        <result property="auditor"    column="auditor"    />
+        <result property="auditTime"    column="audit_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectAuditRecordsVo">
+        select id, ad_id, audit_status, clause_code, audit_comments, auditor, audit_time, create_by, create_time, update_by, update_time from tb_audit_records
+    </sql>
+
+    <select id="selectAuditRecordsList" parameterType="AuditRecords" resultMap="AuditRecordsResult">
+        <include refid="selectAuditRecordsVo"/>
+        <where>  
+            <if test="adId != null "> and ad_id = #{adId}</if>
+            <if test="auditStatus != null  and auditStatus != ''"> and audit_status = #{auditStatus}</if>
+            <if test="clauseCode != null  and clauseCode != ''"> and clause_code = #{clauseCode}</if>
+            <if test="auditComments != null  and auditComments != ''"> and audit_comments = #{auditComments}</if>
+            <if test="auditor != null  and auditor != ''"> and auditor = #{auditor}</if>
+            <if test="auditTime != null "> and audit_time = #{auditTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectAuditRecordsById" parameterType="Long" resultMap="AuditRecordsResult">
+        <include refid="selectAuditRecordsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAuditRecords" parameterType="AuditRecords" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_audit_records
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adId != null">ad_id,</if>
+            <if test="auditStatus != null">audit_status,</if>
+            <if test="clauseCode != null">clause_code,</if>
+            <if test="auditComments != null">audit_comments,</if>
+            <if test="auditor != null">auditor,</if>
+            <if test="auditTime != null">audit_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adId != null">#{adId},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
+            <if test="clauseCode != null">#{clauseCode},</if>
+            <if test="auditComments != null">#{auditComments},</if>
+            <if test="auditor != null">#{auditor},</if>
+            <if test="auditTime != null">#{auditTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAuditRecords" parameterType="AuditRecords">
+        update tb_audit_records
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="adId != null">ad_id = #{adId},</if>
+            <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="clauseCode != null">clause_code = #{clauseCode},</if>
+            <if test="auditComments != null">audit_comments = #{auditComments},</if>
+            <if test="auditor != null">auditor = #{auditor},</if>
+            <if test="auditTime != null">audit_time = #{auditTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAuditRecordsById" parameterType="Long">
+        delete from tb_audit_records where id = #{id}
+    </delete>
+
+    <delete id="deleteAuditRecordsByIds" parameterType="String">
+        delete from tb_audit_records where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.advertisement.mapper.RegionalMapper">
+    
+    <resultMap type="Regional" id="RegionalResult">
+        <result property="code"    column="code"    />
+        <result property="name"    column="name"    />
+        <result property="sname"    column="sname"    />
+        <result property="parent"    column="parent"    />
+        <result property="initialization"    column="initialization"    />
+        <result property="sepll"    column="sepll"    />
+        <result property="type"    column="type"    />
+        <result property="order"    column="order"    />
+        <result property="level"    column="level"    />
+        <result property="remark"    column="remark"    />
+        <result property="villageType"    column="village_type"    />
+        <result property="nationName"    column="nation_name"    />
+        <result property="provinceName"    column="province_name"    />
+        <result property="cityName"    column="city_name"    />
+        <result property="countyName"    column="county_name"    />
+        <result property="townName"    column="town_name"    />
+        <result property="lng"    column="lng"    />
+        <result property="lat"    column="lat"    />
+    </resultMap>
+
+    <sql id="selectRegionalVo">
+        select code, name, sname, parent, initialization, sepll, type, `order`, level, remark, village_type, nation_name, province_name, city_name, county_name, town_name, lng, lat from tb_regional
+    </sql>
+
+    <select id="selectRegionalList" parameterType="Regional" resultMap="RegionalResult">
+        <include refid="selectRegionalVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and (name like concat('%', #{name}, '%') or code like concat('%', #{name}, '%'))</if>
+            <if test="sepll != null  and sepll != ''"> and sepll = #{sepll}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="level != null "> and level = #{level}</if>
+            <if test="parent != null  and parent != ''"> and parent = #{parent}</if>
+            <if test="provinceName != null  and provinceName != ''"> and province_name like concat('%', #{provinceName}, '%')</if>
+            <if test="cityName != null  and cityName != ''"> and city_name like concat('%', #{cityName}, '%')</if>
+            <if test="countyName != null  and countyName != ''"> and county_name like concat('%', #{countyName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectRegionalByCode" parameterType="String" resultMap="RegionalResult">
+        <include refid="selectRegionalVo"/>
+        where code = #{code}
+    </select>
+
+    <insert id="insertRegional" parameterType="Regional">
+        insert into tb_regional
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">code,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="sname != null">sname,</if>
+            <if test="parent != null and parent != ''">parent,</if>
+            <if test="initialization != null">initialization,</if>
+            <if test="sepll != null and sepll != ''">sepll,</if>
+            <if test="type != null">type,</if>
+            <if test="order != null">order,</if>
+            <if test="level != null">level,</if>
+            <if test="remark != null">remark,</if>
+            <if test="villageType != null">village_type,</if>
+            <if test="nationName != null">nation_name,</if>
+            <if test="provinceName != null">province_name,</if>
+            <if test="cityName != null">city_name,</if>
+            <if test="countyName != null">county_name,</if>
+            <if test="townName != null">town_name,</if>
+            <if test="lng != null">lng,</if>
+            <if test="lat != null">lat,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">#{code},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="sname != null">#{sname},</if>
+            <if test="parent != null and parent != ''">#{parent},</if>
+            <if test="initialization != null">#{initialization},</if>
+            <if test="sepll != null and sepll != ''">#{sepll},</if>
+            <if test="type != null">#{type},</if>
+            <if test="order != null">#{order},</if>
+            <if test="level != null">#{level},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="villageType != null">#{villageType},</if>
+            <if test="nationName != null">#{nationName},</if>
+            <if test="provinceName != null">#{provinceName},</if>
+            <if test="cityName != null">#{cityName},</if>
+            <if test="countyName != null">#{countyName},</if>
+            <if test="townName != null">#{townName},</if>
+            <if test="lng != null">#{lng},</if>
+            <if test="lat != null">#{lat},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRegional" parameterType="Regional">
+        update tb_regional
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="sname != null">sname = #{sname},</if>
+            <if test="parent != null and parent != ''">parent = #{parent},</if>
+            <if test="initialization != null">initialization = #{initialization},</if>
+            <if test="sepll != null and sepll != ''">sepll = #{sepll},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="order != null">order = #{order},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="villageType != null">village_type = #{villageType},</if>
+            <if test="nationName != null">nation_name = #{nationName},</if>
+            <if test="provinceName != null">province_name = #{provinceName},</if>
+            <if test="cityName != null">city_name = #{cityName},</if>
+            <if test="countyName != null">county_name = #{countyName},</if>
+            <if test="townName != null">town_name = #{townName},</if>
+            <if test="lng != null">lng = #{lng},</if>
+            <if test="lat != null">lat = #{lat},</if>
+        </trim>
+        where code = #{code}
+    </update>
+
+    <delete id="deleteRegionalByCode" parameterType="String">
+        delete from tb_regional where code = #{code}
+    </delete>
+
+    <delete id="deleteRegionalByCodes" parameterType="String">
+        delete from tb_regional where code in 
+        <foreach item="code" collection="array" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+    </delete>
+</mapper>

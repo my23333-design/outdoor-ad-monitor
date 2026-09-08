@@ -1,0 +1,27 @@
+{
+  "entryPagePath": "pages/login/login",
+  "pages": [
+    "pages/historyList/historyList",
+    "pages/adDetail/adDetail",
+    "pages/upload/upload",
+    "pages/login/login",
+    "pages/my/my",
+    "pages/index/index",
+    "pages/logs/logs"
+  ],
+  "window": {
+    "navigationBarTitleText": "户外广告监测系统",
+    "navigationBarBackgroundColor": "#708bff"
+  },
+  "sitemapLocation": "sitemap.json",
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseAddress",
+    "chooseLocation"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "当前需要获取你的经纬度"
+    }
+  }
+}

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.advertisement.mapper.AIReviewResultMapper">
+    <resultMap type="com.ruoyi.advertisement.domain.AIReviewResult" id="AIReviewResultResult">
+        <id property="id" column="id" />
+        <result property="adId" column="ad_id" />
+        <result property="textReviewResult" column="text_review_result" />
+        <result property="imageReviewResult" column="image_review_result" />
+        <result property="textDetail" column="text_detail" />
+        <result property="imageDetail" column="image_detail" />
+        <result property="overallResult" column="overall_result" />
+        <result property="reviewTime" column="review_time" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <insert id="insertAIReviewResult" parameterType="com.ruoyi.advertisement.domain.AIReviewResult" useGeneratedKeys="true" keyProperty="id">
+        insert into ai_review_result (
+            ad_id,
+            text_review_result,
+            image_review_result,
+            text_detail,
+            image_detail,
+            overall_result,
+            review_time,
+            create_time,
+            update_time
+        ) values (
+            #{adId},
+            #{textReviewResult},
+            #{imageReviewResult},
+            #{textDetail},
+            #{imageDetail},
+            #{overallResult},
+            #{reviewTime},
+            sysdate(),
+            sysdate()
+        )
+    </insert>
+
+    <update id="updateAIReviewResult" parameterType="com.ruoyi.advertisement.domain.AIReviewResult">
+        update ai_review_result set
+            text_review_result = #{textReviewResult},
+            image_review_result = #{imageReviewResult},
+            text_detail = #{textDetail},
+            image_detail = #{imageDetail},
+            overall_result = #{overallResult},
+            review_time = #{reviewTime},
+            update_time = sysdate()
+        where id = #{id}
+    </update>
+
+    <select id="selectAIReviewResultByAdId" parameterType="java.lang.Long" resultMap="AIReviewResultResult">
+        select * from ai_review_result where ad_id = #{adId}
+    </select>
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.advertisement.mapper.EnforcementMapper">
+    
+    <resultMap type="Enforcement" id="EnforcementResult">
+        <result property="id"    column="id"    />
+        <result property="adId"    column="ad_id"    />
+        <result property="handleResult"    column="handle_result"    />
+        <result property="postHandleImage"    column="post_handle_image"    />
+        <result property="handleTime"    column="handle_time"    />
+        <result property="handler"    column="handler"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectEnforcementVo">
+        select id, ad_id, handle_result, post_handle_image, handle_time, handler, create_by, create_time, update_by, update_time from tb_enforcement
+    </sql>
+
+    <select id="selectEnforcementList" parameterType="Enforcement" resultMap="EnforcementResult">
+        <include refid="selectEnforcementVo"/>
+        <where>  
+            <if test="adId != null "> and ad_id = #{adId}</if>
+            <if test="handleResult != null  and handleResult != ''"> and handle_result = #{handleResult}</if>
+            <if test="postHandleImage != null  and postHandleImage != ''"> and post_handle_image = #{postHandleImage}</if>
+            <if test="handleTime != null "> and handle_time = #{handleTime}</if>
+            <if test="handler != null  and handler != ''"> and handler = #{handler}</if>
+        </where>
+    </select>
+    
+    <select id="selectEnforcementById" parameterType="Long" resultMap="EnforcementResult">
+        <include refid="selectEnforcementVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertEnforcement" parameterType="Enforcement" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_enforcement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adId != null">ad_id,</if>
+            <if test="handleResult != null">handle_result,</if>
+            <if test="postHandleImage != null">post_handle_image,</if>
+            <if test="handleTime != null">handle_time,</if>
+            <if test="handler != null">handler,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adId != null">#{adId},</if>
+            <if test="handleResult != null">#{handleResult},</if>
+            <if test="postHandleImage != null">#{postHandleImage},</if>
+            <if test="handleTime != null">#{handleTime},</if>
+            <if test="handler != null">#{handler},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEnforcement" parameterType="Enforcement">
+        update tb_enforcement
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="adId != null">ad_id = #{adId},</if>
+            <if test="handleResult != null">handle_result = #{handleResult},</if>
+            <if test="postHandleImage != null">post_handle_image = #{postHandleImage},</if>
+            <if test="handleTime != null">handle_time = #{handleTime},</if>
+            <if test="handler != null">handler = #{handler},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEnforcementById" parameterType="Long">
+        delete from tb_enforcement where id = #{id}
+    </delete>
+
+    <delete id="deleteEnforcementByIds" parameterType="String">
+        delete from tb_enforcement where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

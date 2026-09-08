@@ -1,0 +1,261 @@
+/* ===== 首页美化 ===== */
+page {
+  background: #f0f2f7;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+}
+
+.home-page {
+  min-height: 100vh;
+  background: #f0f2f7;
+  position: relative;
+}
+
+/* 顶部渐变背景 */
+.top-bg {
+  position: relative;
+  height: 420rpx;
+  overflow: hidden;
+}
+
+.bg-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1a2a6c 0%, #2d5de1 50%, #4facfe 100%);
+  border-radius: 0 0 60rpx 60rpx;
+}
+
+/* 用户卡片 */
+.user-card {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) + 60rpx);
+  left: 32rpx;
+  right: 32rpx;
+  display: flex;
+  align-items: center;
+  padding: 32rpx 36rpx;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24rpx;
+  box-shadow: 0 8rpx 32rpx rgba(26, 42, 108, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.user-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2d5de1, #4facfe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+  box-shadow: 0 4rpx 16rpx rgba(45, 93, 225, 0.4);
+}
+
+.avatar-text {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #fff;
+}
+
+.user-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 8rpx;
+}
+
+.user-role {
+  font-size: 26rpx;
+  color: #2d5de1;
+  font-weight: 500;
+}
+
+.logout-btn {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 16rpx;
+  background: #fff0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-icon {
+  font-size: 32rpx;
+  color: #ff4757;
+}
+
+/* 统计数据行 */
+.stats-row {
+  display: flex;
+  gap: 20rpx;
+  padding: 0 32rpx;
+  margin-top: -80rpx;
+  position: relative;
+  z-index: 10;
+}
+
+.stat-card {
+  flex: 1;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 16rpx 24rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-num {
+  font-size: 48rpx;
+  font-weight: 800;
+  color: #2d5de1;
+  line-height: 1;
+  margin-bottom: 8rpx;
+}
+
+.stat-num.danger {
+  color: #ff4757;
+}
+
+.stat-num.success {
+  color: #43e97b;
+}
+
+.stat-label {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 4rpx;
+}
+
+.stat-sub {
+  font-size: 22rpx;
+  color: #8c8ea4;
+}
+
+/* 功能区域 */
+.func-section {
+  padding: 40rpx 32rpx 0;
+}
+
+.section-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 24rpx;
+}
+
+.func-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.func-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 28rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+  transition: all 0.2s;
+}
+
+.func-card:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.func-icon-wrap {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 22rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+
+.func-icon-wrap.primary {
+  background: linear-gradient(135deg, #e3f0ff, #d4e8ff);
+}
+
+.func-icon-wrap.warning {
+  background: linear-gradient(135deg, #fff4e3, #ffe4c4);
+}
+
+.func-icon-wrap.success {
+  background: linear-gradient(135deg, #e3fff4, #c4ffe8);
+}
+
+.func-icon-wrap.info {
+  background: linear-gradient(135deg, #f4e3ff, #e4c4ff);
+}
+
+.func-icon {
+  font-size: 44rpx;
+}
+
+.func-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.func-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 4rpx;
+}
+
+.func-desc {
+  font-size: 24rpx;
+  color: #8c8ea4;
+}
+
+/* 待处理徽章 */
+.badge {
+  position: absolute;
+  top: -8rpx;
+  right: 48rpx;
+  background: linear-gradient(135deg, #ff4757, #ff6b81);
+  color: #fff;
+  font-size: 20rpx;
+  font-weight: 700;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  min-width: 32rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 8rpx rgba(255, 71, 87, 0.4);
+}
+
+.func-arrow {
+  font-size: 40rpx;
+  color: #d0d5e0;
+  font-weight: 300;
+  flex-shrink: 0;
+}
+
+/* 底部版本 */
+.version-bar {
+  text-align: center;
+  padding: 60rpx 0 40rpx;
+}
+
+.version-text {
+  font-size: 22rpx;
+  color: #c0c3d0;
+}

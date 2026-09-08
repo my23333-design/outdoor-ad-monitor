@@ -1,0 +1,95 @@
+<view class="home-page">
+  <!-- 顶部背景 -->
+  <view class="top-bg">
+    <view class="bg-gradient"></view>
+  </view>
+
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <view class="user-avatar">
+      <text class="avatar-text">{{nickNameText}}</text>
+    </view>
+    <view class="user-info">
+      <text class="user-name">{{nickName || '用户'}}</text>
+      <text class="user-role">{{roleName}}</text>
+    </view>
+    <view class="logout-btn" bindtap="logout">
+      <text class="logout-icon">⏻</text>
+    </view>
+  </view>
+
+  <!-- 统计数据卡片 -->
+  <view class="stats-row">
+    <view class="stat-card">
+      <text class="stat-num">{{stats.uploadCount}}</text>
+      <text class="stat-label">已上传</text>
+      <text class="stat-sub">广告条数</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-num danger">{{stats.pendingCount}}</text>
+      <text class="stat-label">待处理</text>
+      <text class="stat-sub">违规广告</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-num success">{{stats.processedCount}}</text>
+      <text class="stat-label">已完成</text>
+      <text class="stat-sub">处理记录</text>
+    </view>
+  </view>
+
+  <!-- 功能入口 -->
+  <view class="func-section">
+    <text class="section-title">功能菜单</text>
+    <view class="func-grid">
+      <view class="func-card func-primary" bindtap="goToUpload">
+        <view class="func-icon-wrap primary">
+          <text class="func-icon">📷</text>
+        </view>
+        <view class="func-text">
+          <text class="func-name">上传广告</text>
+          <text class="func-desc">采集现场数据</text>
+        </view>
+        <text class="func-arrow">›</text>
+      </view>
+
+      <view class="func-card func-warning" bindtap="goToHistory">
+        <view class="func-icon-wrap warning">
+          <text class="func-icon">📜</text>
+        </view>
+        <view class="func-text">
+          <text class="func-name">历史记录</text>
+          <text class="func-desc">查看待处理任务</text>
+          <view class="badge" wx:if="{{stats.pendingCount > 0}}">{{stats.pendingCount > 99 ? '99+' : stats.pendingCount}}</view>
+        </view>
+        <text class="func-arrow">›</text>
+      </view>
+
+      <view class="func-card func-success" bindtap="goToStatistics">
+        <view class="func-icon-wrap success">
+          <text class="func-icon">📊</text>
+        </view>
+        <view class="func-text">
+          <text class="func-name">我的统计</text>
+          <text class="func-desc">查看工作数据</text>
+        </view>
+        <text class="func-arrow">›</text>
+      </view>
+
+      <view class="func-card func-info" bindtap="goToProfile">
+        <view class="func-icon-wrap info">
+          <text class="func-icon">👤</text>
+        </view>
+        <view class="func-text">
+          <text class="func-name">个人信息</text>
+          <text class="func-desc">账号信息管理</text>
+        </view>
+        <text class="func-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部版本信息 -->
+  <view class="version-bar">
+    <text class="version-text">户外广告监测系统 v1.0</text>
+  </view>
+</view>

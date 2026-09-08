@@ -1,0 +1,88 @@
+<view class="main-box">
+  <view class="user-box">
+    <view class="user-box-mask"></view>
+    <view class="user-info">
+      <view class="avatar-container" bindtap="onClickAvatar">
+        <image class="avatar" src="/static/images/loginImg.png"></image>
+      </view>
+      <view class="user-detail">
+        <text class="user-name">{{nickName}}</text>
+        <text class="user-id">{{roleName}}</text>
+      </view>
+    </view>
+
+    <view class="stats-container">
+      <view class="stat-item">
+        <text class="stat-label">累计举报</text>
+        <view class="stat-value">
+          {{total}}
+          <text class="stat-unit">条</text>
+        </view>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-label">累计完成</text>
+        <view class="stat-value default">
+          {{handleCount}}
+          <text class="stat-unit">条</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="type-container">
+    <view class="dropdown-wrapper" bindtap="toggleDropdown">
+      <text class="dropdown-label">类型</text>
+      <text class="dropdown-value">{{currentTypeName || '全部'}}</text>
+      <text class="dropdown-arrow">▼</text>
+    </view>
+    <view class="dropdown-options" wx:if="{{showDropdown}}">
+      <view class="dropdown-option {{violationType === null ? 'active' : ''}}" bindtap="selectType" data-value="" data-label="全部">全部</view>
+      <view class="dropdown-option {{violationType === '1' ? 'active' : ''}}" bindtap="selectType" data-value="1" data-label="禁用词类">禁用词类</view>
+      <view class="dropdown-option {{violationType === '2' ? 'active' : ''}}" bindtap="selectType" data-value="2" data-label="虚假宣传">虚假宣传</view>
+      <view class="dropdown-option {{violationType === '3' ? 'active' : ''}}" bindtap="selectType" data-value="3" data-label="低俗类">低俗类</view>
+      <view class="dropdown-option {{violationType === '4' ? 'active' : ''}}" bindtap="selectType" data-value="4" data-label="敏感类">敏感类</view>
+      <view class="dropdown-option {{violationType === '5' ? 'active' : ''}}" bindtap="selectType" data-value="5" data-label="其他类">其他类</view>
+    </view>
+    <text class="type-item {{auditStatus === '0' ? 'active' : ''}}" data-status="0" bindtap="onStatusChange">待处理</text>
+    <text class="type-item {{auditStatus === '1' ? 'active' : ''}}" data-status="1" bindtap="onStatusChange">已处理</text>
+  </view>
+
+  <scroll-view class="list-container" scroll-y="true" lower-threshold="100rpx" style="height: calc(100vh - 550rpx)" bindscrolltolower="onReachBottom" refresher-enabled="true" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onPullDownRefresh">
+    <block wx:for="{{historyList}}" wx:key="id">
+      <navigator class="list-item" url="/pages/adDetail/adDetail?id={{item.id}}">
+        <image class="item-image" src="{{item.adImages}}"></image>
+        <view class="item-detail">
+          <view class="top-content">
+            <text class="item-title">{{item.adIndustryType || '未知行业'}}</text>
+            <text class="item-date">{{item.surveyTime}}</text>
+          </view>
+          <view class="item-location">{{item.city || ''}} {{item.district || ''}} {{item.street || ''}}</view>
+          <view class="item-status" wx:if="{{item.processResult}}">
+            <text class="status-tag status-{{item.processResult}}">{{item.processResultName || '已处理'}}</text>
+          </view>
+        </view>
+      </navigator>
+    </block>
+
+    <view class="empty-container" wx:if="{{!historyList.length}}">
+      <image class="empty-image" src="/static/images/loginImg.png"></image>
+      <text class="empty-text">暂无记录</text>
+    </view>
+
+    <view class="loading-more" wx:if="{{loadingMore}}">
+      <text>加载中...</text>
+    </view>
+  </scroll-view>
+</view>
+
+<view class="dialog-overlay" wx:if="{{showConfirm}}" bindtap="closeDialog">
+  <view class="dialog-box" catchtap="stopPropagation">
+    <view class="dialog-title">退出登录</view>
+    <view class="dialog-content">确定要退出登录吗？</view>
+    <view class="dialog-buttons">
+      <view class="dialog-btn cancel" bindtap="closeDialog">取消</view>
+      <view class="dialog-btn confirm" bindtap="confirmQuit">确定</view>
+    </view>
+  </view>
+</view>

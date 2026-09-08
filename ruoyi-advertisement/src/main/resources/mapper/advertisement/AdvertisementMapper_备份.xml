@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.advertisement.mapper.AdvertisementMapper">
+    
+    <resultMap type="Advertisement" id="AdvertisementResult">
+        <result property="id"    column="id"    />
+        <result property="adProfitabilityType"    column="ad_profitability_type"    />
+        <result property="adIndustryType"    column="ad_industry_type"    />
+        <result property="adMediumType"    column="ad_medium_type"    />
+        <result property="adDescription"    column="ad_description"    />
+        <result property="adImages"    column="ad_images"    />
+        <result property="violationType"    column="violation_type"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="district"    column="district"    />
+        <result property="street"    column="street"    />
+        <result property="address"    column="address"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="advertiser"    column="advertiser"    />
+        <result property="surveyTime"    column="survey_time"    />
+        <result property="surveyor"    column="surveyor"    />
+        <result property="checkStatus"    column="check_status"    />
+        <result property="checkTime"    column="check_time"    />
+        <result property="handleStatus"    column="handle_status"    />
+        <result property="auditStatus"    column="audit_status"    />
+        <result property="report"    column="report"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectAdvertisementVo">
+        select id, ad_profitability_type, ad_industry_type, ad_medium_type, ad_description, ad_images, violation_type, province, city, district, street, address, latitude, longitude, advertiser, survey_time, surveyor, check_status, check_time, handle_status, audit_status, report, is_deleted, create_by, create_time, update_by, update_time, remark from tb_advertisement
+    </sql>
+
+    <select id="selectAdvertisementList" parameterType="Advertisement" resultMap="AdvertisementResult">
+        <include refid="selectAdvertisementVo"/>
+        <where>  
+            <if test="adProfitabilityType != null  and adProfitabilityType != ''"> and ad_profitability_type = #{adProfitabilityType}</if>
+            <if test="adIndustryType != null  and adIndustryType != ''"> and ad_industry_type = #{adIndustryType}</if>
+            <if test="adMediumType != null  and adMediumType != ''"> and ad_medium_type = #{adMediumType}</if>
+            <if test="adDescription != null  and adDescription != ''"> and ad_description = #{adDescription}</if>
+            <if test="adImages != null  and adImages != ''"> and ad_images = #{adImages}</if>
+            <if test="violationType != null  and violationType != ''"> and violation_type = #{violationType}</if>
+            <if test="province != null  and province != ''"> and province like concat('%', #{province}, '%')</if>
+            <if test="city != null  and city != ''"> and city like concat('%', #{city}, '%')</if>
+            <if test="district != null  and district != ''"> and district like concat('%', #{district}, '%')</if>
+            <if test="street != null  and street != ''"> and street like concat('%', #{street}, '%')</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="advertiser != null  and advertiser != ''"> and advertiser = #{advertiser}</if>
+            <if test="surveyTime != null "> and survey_time = #{surveyTime}</if>
+            <if test="surveyor != null  and surveyor != ''"> and surveyor = #{surveyor}</if>
+            <if test="checkStatus != null  and checkStatus != ''"> and check_status = #{checkStatus}</if>
+            <if test="checkTime != null "> and check_time = #{checkTime}</if>
+            <if test="handleStatus != null  and handleStatus != ''"> and handle_status = #{handleStatus}</if>
+            <if test="auditStatus != null  and auditStatus != ''"> and audit_status = #{auditStatus}</if>
+            <if test="report != null  and report != ''"> and report = #{report}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectAdvertisementById" parameterType="Long" resultMap="AdvertisementResult">
+        <include refid="selectAdvertisementVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAdvertisement" parameterType="Advertisement" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_advertisement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adProfitabilityType != null and adProfitabilityType != ''">ad_profitability_type,</if>
+            <if test="adIndustryType != null and adIndustryType != ''">ad_industry_type,</if>
+            <if test="adMediumType != null and adMediumType != ''">ad_medium_type,</if>
+            <if test="adDescription != null">ad_description,</if>
+            <if test="adImages != null and adImages != ''">ad_images,</if>
+            <if test="violationType != null and violationType != ''">violation_type,</if>
+            <if test="province != null">province,</if>
+            <if test="city != null">city,</if>
+            <if test="district != null">district,</if>
+            <if test="street != null">street,</if>
+            <if test="address != null">address,</if>
+            <if test="latitude != null and latitude != ''">latitude,</if>
+            <if test="longitude != null and longitude != ''">longitude,</if>
+            <if test="advertiser != null and advertiser != ''">advertiser,</if>
+            <if test="surveyTime != null">survey_time,</if>
+            <if test="surveyor != null and surveyor != ''">surveyor,</if>
+            <if test="checkStatus != null">check_status,</if>
+            <if test="checkTime != null">check_time,</if>
+            <if test="handleStatus != null">handle_status,</if>
+            <if test="auditStatus != null">audit_status,</if>
+            <if test="report != null">report,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adProfitabilityType != null and adProfitabilityType != ''">#{adProfitabilityType},</if>
+            <if test="adIndustryType != null and adIndustryType != ''">#{adIndustryType},</if>
+            <if test="adMediumType != null and adMediumType != ''">#{adMediumType},</if>
+            <if test="adDescription != null">#{adDescription},</if>
+            <if test="adImages != null and adImages != ''">#{adImages},</if>
+            <if test="violationType != null and violationType != ''">#{violationType},</if>
+            <if test="province != null">#{province},</if>
+            <if test="city != null">#{city},</if>
+            <if test="district != null">#{district},</if>
+            <if test="street != null">#{street},</if>
+            <if test="address != null">#{address},</if>
+            <if test="latitude != null and latitude != ''">#{latitude},</if>
+            <if test="longitude != null and longitude != ''">#{longitude},</if>
+            <if test="advertiser != null and advertiser != ''">#{advertiser},</if>
+            <if test="surveyTime != null">#{surveyTime},</if>
+            <if test="surveyor != null and surveyor != ''">#{surveyor},</if>
+            <if test="checkStatus != null">#{checkStatus},</if>
+            <if test="checkTime != null">#{checkTime},</if>
+            <if test="handleStatus != null">#{handleStatus},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
+            <if test="report != null">#{report},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAdvertisement" parameterType="Advertisement">
+        update tb_advertisement
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="adProfitabilityType != null and adProfitabilityType != ''">ad_profitability_type = #{adProfitabilityType},</if>
+            <if test="adIndustryType != null and adIndustryType != ''">ad_industry_type = #{adIndustryType},</if>
+            <if test="adMediumType != null and adMediumType != ''">ad_medium_type = #{adMediumType},</if>
+            <if test="adDescription != null">ad_description = #{adDescription},</if>
+            <if test="adImages != null and adImages != ''">ad_images = #{adImages},</if>
+            <if test="violationType != null and violationType != ''">violation_type = #{violationType},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="district != null">district = #{district},</if>
+            <if test="street != null">street = #{street},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="latitude != null and latitude != ''">latitude = #{latitude},</if>
+            <if test="longitude != null and longitude != ''">longitude = #{longitude},</if>
+            <if test="advertiser != null and advertiser != ''">advertiser = #{advertiser},</if>
+            <if test="surveyTime != null">survey_time = #{surveyTime},</if>
+            <if test="surveyor != null and surveyor != ''">surveyor = #{surveyor},</if>
+            <if test="checkStatus != null">check_status = #{checkStatus},</if>
+            <if test="checkTime != null">check_time = #{checkTime},</if>
+            <if test="handleStatus != null">handle_status = #{handleStatus},</if>
+            <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="report != null">report = #{report},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAdvertisementById" parameterType="Long">
+        delete from tb_advertisement where id = #{id}
+    </delete>
+
+    <delete id="deleteAdvertisementByIds" parameterType="String">
+        delete from tb_advertisement where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="resetAllAdvertisementStatus">
+        update tb_advertisement set audit_status = '0', handle_status = '0'
+    </update>
+
+    <resultMap type="AIReviewResult" id="AIReviewResultResult">
+        <result property="id" column="id" />
+        <result property="adId" column="ad_id" />
+        <result property="textReviewResult" column="text_review_result" />
+        <result property="imageReviewResult" column="image_review_result" />
+        <result property="textDetail" column="text_detail" />
+        <result property="imageDetail" column="image_detail" />
+        <result property="overallResult" column="overall_result" />
+        <result property="reviewTime" column="review_time" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <select id="selectAIReviewResultByAdId" parameterType="Long" resultMap="AIReviewResultResult">
+        select id, ad_id, text_review_result, image_review_result, text_detail, image_detail, overall_result, review_time, create_time, update_time
+        from tb_ai_review_result
+        where ad_id = #{adId}
+    </select>
+
+    <insert id="insertAIReviewResult" parameterType="AIReviewResult" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_ai_review_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adId != null">ad_id,</if>
+            <if test="textReviewResult != null">text_review_result,</if>
+            <if test="imageReviewResult != null">image_review_result,</if>
+            <if test="textDetail != null">text_detail,</if>
+            <if test="imageDetail != null">image_detail,</if>
+            <if test="overallResult != null">overall_result,</if>
+            <if test="reviewTime != null">review_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adId != null">#{adId},</if>
+            <if test="textReviewResult != null">#{textReviewResult},</if>
+            <if test="imageReviewResult != null">#{imageReviewResult},</if>
+            <if test="textDetail != null">#{textDetail},</if>
+            <if test="imageDetail != null">#{imageDetail},</if>
+            <if test="overallResult != null">#{overallResult},</if>
+            <if test="reviewTime != null">#{reviewTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAIReviewResult" parameterType="AIReviewResult">
+        update tb_ai_review_result
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="textReviewResult != null">text_review_result = #{textReviewResult},</if>
+            <if test="imageReviewResult != null">image_review_result = #{imageReviewResult},</if>
+            <if test="textDetail != null">text_detail = #{textDetail},</if>
+            <if test="imageDetail != null">image_detail = #{imageDetail},</if>
+            <if test="overallResult != null">overall_result = #{overallResult},</if>
+            <if test="reviewTime != null">review_time = #{reviewTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+</mapper>

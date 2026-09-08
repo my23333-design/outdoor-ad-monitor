@@ -1,0 +1,93 @@
+<view class="login-page">
+  <!-- 顶部装饰圆 -->
+  <view class="top-circle top-circle-left"></view>
+  <view class="top-circle top-circle-right"></view>
+
+  <view class="login-content">
+    <!-- Logo 区域 -->
+    <view class="logo-area">
+      <view class="logo-wrap">
+        <image class="logo-icon" src="/static/images/loginImg.png" mode="aspectFill"></image>
+      </view>
+      <text class="app-name">户外广告监测系统</text>
+      <text class="app-sub">Outdoor Advertisement Monitoring</text>
+    </view>
+
+    <!-- 角色选择 -->
+    <view class="role-section">
+      <text class="section-label">请选择您的身份</text>
+      <view class="role-cards">
+        <view 
+          class="role-card {{roleKey === 'collect' ? 'active' : ''}}" 
+          bindtap="onRoleSelect" 
+          data-role-key="collect"
+        >
+          <view class="role-icon-wrap role-icon-collect">
+            <text class="role-icon-text">采</text>
+          </view>
+          <view class="role-info">
+            <text class="role-name">数据采集者</text>
+            <text class="role-desc">负责现场采集广告数据</text>
+          </view>
+          <view class="role-check" wx:if="{{roleKey === 'collect'}}">✓</view>
+        </view>
+
+        <view 
+          class="role-card {{roleKey === 'handle' ? 'active' : ''}}" 
+          bindtap="onRoleSelect" 
+          data-role-key="handle"
+        >
+          <view class="role-icon-wrap role-icon-handle">
+            <text class="role-icon-text">执</text>
+          </view>
+          <view class="role-info">
+            <text class="role-name">执法处理者</text>
+            <text class="role-desc">负责违规广告处理执行</text>
+          </view>
+          <view class="role-check" wx:if="{{roleKey === 'handle'}}">✓</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 登录表单 -->
+    <view class="form-area">
+      <view class="form-field">
+        <view class="field-icon">👤</view>
+        <input 
+          class="input-field" 
+          type="text" 
+          placeholder="请输入账号" 
+          value="{{username}}" 
+          bindinput="onUsernameInput" 
+        />
+      </view>
+
+      <view class="form-field">
+        <view class="field-icon">🔒</view>
+        <input 
+          class="input-field" 
+          type="password" 
+          password="true" 
+          placeholder="请输入密码" 
+          value="{{password}}" 
+          bindinput="onPasswordInput" 
+        />
+      </view>
+
+      <button 
+        class="login-btn {{isVerifying ? 'loading' : ''}}" 
+        bindtap="onSubmit"
+        disabled="{{isVerifying}}"
+      >
+        <text wx:if="{{!isVerifying}}">登 录</text>
+        <text wx:else>登录中...</text>
+      </button>
+    </view>
+
+    <!-- 底部提示 -->
+    <view class="footer-tip">
+      <text>登录即表示同意</text>
+      <text class="link">《用户协议》</text>
+    </view>
+  </view>
+</view>

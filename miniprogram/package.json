@@ -1,0 +1,16 @@
+{
+  "name": "codes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tdesign-miniprogram": "^1.14.0",
+    "wx-request-plus": "^1.0.18"
+  }
+}

@@ -1,0 +1,218 @@
+<view class="detail-container">
+  <!-- 顶部导航栏 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="goBack">
+      <text class="back-icon">‹</text>
+    </view>
+    <text class="nav-title">广告详情</text>
+    <view class="nav-right"></view>
+  </view>
+
+  <!-- 角色身份标识 -->
+  <view class="role-badge {{isLawEnforcer ? 'badge-handle' : 'badge-collect'}}">
+    <text class="badge-dot"></text>
+    <text class="badge-text">{{currentRoleName}}</text>
+  </view>
+
+  <scroll-view class="content-scroll" scroll-y="true">
+    <!-- 基本信息 -->
+    <view class="section section-card">
+      <view class="section-header">
+        <text class="section-icon">📋</text>
+        <text class="section-title">基本信息</text>
+      </view>
+      <view class="info-grid">
+        <view class="info-item">
+          <text class="info-label">营利类型</text>
+          <text class="info-value">{{adData.adProfitabilityType === '1' ? '公益广告' : '商业广告'}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">行业分类</text>
+          <text class="info-value primary">{{industryName || '-'}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">媒体类型</text>
+          <text class="info-value primary">{{mediumName || '-'}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">违法类别</text>
+          <text class="info-value danger">{{violationTypeName || '-'}}</text>
+        </view>
+        <view class="info-item full-width">
+          <text class="info-label">广告主</text>
+          <text class="info-value">{{adData.advertiser || '-'}}</text>
+        </view>
+        <view class="info-item full-width">
+          <text class="info-label">采集时间</text>
+          <text class="info-value muted">{{adData.surveyTime || '-'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 位置信息 -->
+    <view class="section section-card">
+      <view class="section-header">
+        <text class="section-icon">📍</text>
+        <text class="section-title">位置信息</text>
+      </view>
+      <view class="location-card">
+        <text class="location-address">{{adData.address || '-'}}</text>
+        <view class="location-detail">
+          <view class="loc-item">
+            <text class="loc-label">省</text>
+            <text class="loc-value">{{adData.province || '-'}}</text>
+          </view>
+          <view class="loc-item">
+            <text class="loc-label">市</text>
+            <text class="loc-value">{{adData.city || '-'}}</text>
+          </view>
+          <view class="loc-item">
+            <text class="loc-label">区</text>
+            <text class="loc-value">{{adData.district || '-'}}</text>
+          </view>
+          <view class="loc-item">
+            <text class="loc-label">街道</text>
+            <text class="loc-value">{{adData.street || '-'}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 违法描述 -->
+    <view class="section section-card" wx:if="{{adData.adDescription}}">
+      <view class="section-header">
+        <text class="section-icon">⚠️</text>
+        <text class="section-title">违法描述</text>
+      </view>
+      <view class="desc-card">
+        <text>{{adData.adDescription}}</text>
+      </view>
+    </view>
+
+    <!-- 处理前图片 -->
+    <view class="section section-card">
+      <view class="section-header">
+        <text class="section-icon">📷</text>
+        <text class="section-title">处理前图片</text>
+        <text class="section-count">{{beforeImages.length}} 张</text>
+      </view>
+      <view class="image-grid">
+        <block wx:for="{{beforeImages}}" wx:key="index">
+          <view class="image-item" bindtap="previewImage" data-images="{{beforeImages}}" data-index="{{index}}">
+            <image src="{{item}}" mode="aspectFill" class="ad-image" />
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 处理后图片（仅执法处理者可操作） -->
+    <view class="section section-card" wx:if="{{isLawEnforcer || afterImages.length > 0}}">
+      <view class="section-header">
+        <text class="section-icon">🔧</text>
+        <text class="section-title">处理后图片</text>
+        <text class="section-count">{{afterImages.length}} 张</text>
+      </view>
+      <view class="image-grid">
+        <!-- 已上传的处理后图片 -->
+        <block wx:for="{{afterImages}}" wx:key="index">
+          <view class="image-item" bindtap="previewImage" data-images="{{afterImages}}" data-index="{{index}}">
+            <image src="{{item}}" mode="aspectFill" class="ad-image" />
+            <!-- 执法者可删除 -->
+            <view class="image-delete" bindtap="deleteAfterImage" data-index="{{index}}" wx:if="{{isLawEnforcer}}">
+              <text>×</text>
+            </view>
+          </view>
+        </block>
+        <!-- 添加按钮（仅执法者可见） -->
+        <view class="image-item add-btn" bindtap="chooseAfterImage" wx:if="{{isLawEnforcer && afterImages.length < 9}}">
+          <text class="add-icon">+</text>
+          <text class="add-text">添加</text>
+        </view>
+      </view>
+      <!-- 采集者提示 -->
+      <view class="readonly-hint" wx:if="{{!isLawEnforcer && afterImages.length === 0}}">
+        <text>暂无处理后图片</text>
+      </view>
+    </view>
+
+    <!-- 处理信息（仅执法处理者可填写） -->
+    <view class="section section-card handle-section" wx:if="{{isLawEnforcer}}">
+      <view class="section-header">
+        <text class="section-icon">📝</text>
+        <text class="section-title">处理信息</text>
+      </view>
+      
+      <!-- 处理结果 -->
+      <view class="form-row">
+        <text class="form-label required">处理结果</text>
+        <view class="form-selector" bindtap="showProcessResult">
+          <text class="{{selectedProcessResult ? 'selector-value' : 'selector-placeholder'}}">
+            {{selectedProcessResultName || '请选择处理结果'}}
+          </text>
+          <text class="selector-arrow">›</text>
+        </view>
+      </view>
+
+      <!-- 处理人 -->
+      <view class="form-row">
+        <text class="form-label required">处理人</text>
+        <input 
+          class="form-input" 
+          placeholder="请输入处理人姓名" 
+          value="{{processPerson}}" 
+          bindinput="onProcessPersonChange" 
+        />
+      </view>
+
+      <!-- 提交按钮 -->
+      <view class="submit-row">
+        <view class="submit-btn {{submitting ? 'loading' : ''}}" bindtap="submitProcessResult" wx:if="{{!submitting}}">
+          <text>提交处理结果</text>
+        </view>
+        <view class="submit-btn loading" wx:else>
+          <view class="loading-ring"></view>
+          <text>提交中...</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 数据采集者提示 -->
+    <view class="section section-card readonly-card" wx:if="{{!isLawEnforcer}}">
+      <view class="readonly-icon">👁️</view>
+      <text class="readonly-title">当前为查看模式</text>
+      <text class="readonly-desc">处理信息由执法处理者填写，如需处理请切换账号登录</text>
+    </view>
+  </scroll-view>
+</view>
+
+<!-- 处理结果选择弹窗 -->
+<view class="modal-overlay" wx:if="{{processResultVisible}}" bindtap="cancelProcessResult">
+  <view class="modal-sheet" catchtap="stopPropagation">
+    <view class="modal-handle-bar"></view>
+    <view class="modal-header">
+      <text class="modal-title">选择处理结果</text>
+      <view class="modal-close" bindtap="cancelProcessResult">×</view>
+    </view>
+    <view class="modal-body">
+      <view 
+        class="modal-item {{selectedProcessResult === item.code ? 'active' : ''}}" 
+        wx:for="{{processResultList}}" 
+        wx:key="item.code" 
+        bindtap="selectProcessResult" 
+        data-item="{{item}}"
+      >
+        <text>{{item.name}}</text>
+        <text class="check-mark" wx:if="{{selectedProcessResult === item.code}}">✓</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 提示弹窗 -->
+<view class="dialog-overlay" wx:if="{{showDialog}}" bindtap="closeDialog">
+  <view class="dialog-box" catchtap="stopPropagation">
+    <view class="dialog-title">提示</view>
+    <view class="dialog-content">{{dialogContent}}</view>
+    <view class="dialog-btn" bindtap="closeDialog">确定</view>
+  </view>
+</view>
